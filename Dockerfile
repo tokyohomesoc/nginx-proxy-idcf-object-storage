@@ -3,6 +3,7 @@ FROM alpine:3.4
 MAINTAINER Tokyo Home SOC <github@homesoc.tokyo>
 
 # Environment variable
+ARG TIMEZONE=Asia/Tokyo
 ## nginx-ct
 ARG NGX_CT_VERSION=1.3.1
 ## headers-more-nginx-module
@@ -44,8 +45,11 @@ RUN \
        addgroup -S nginx \
     && adduser -D -S -h /var/cache/nginx -s /sbin/nologin -G nginx nginx \
     # TIMEZONE
-    && apk add --no-cache \
-        tzdata \
+    && apk add --no-cache --virtual .build-tzdata \
+         tzdata \
+    && cp /usr/share/zoneinfo/${TIMEZONE} /etc/localtime \
+    && apk del .build-tzdata \
+    \
     # nginx packages
     && apk add --no-cache --virtual .build-nginx \
         gcc \
