@@ -22,9 +22,9 @@ log_format main "time:$time_local\t"
                 "remote_addr:$remote_addr\t"
 # status,method
                 "status:$status\t"
-                "method:$$request_method\t"
+                "method:$request_method\t"
                 "scheme:$scheme\t"
-                "path:$url\t"
+                "path:$uri\t"
                 "query:$args\t"
 # Request
                 "req_bytes:$request_length\t"
@@ -56,9 +56,9 @@ log_format warn "time:$time_local\t"
                 "remote_addr:$remote_addr\t"
 # status,method
                 "status:$status\t"
-                "method:$$request_method\t"
+                "method:$request_method\t"
                 "scheme:$scheme\t"
-                "path:$url\t"
+                "path:$uri\t"
                 "query:$args\t"
 # Request
                 "req_bytes:$request_length\t"
