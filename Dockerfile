@@ -1,13 +1,13 @@
 FROM alpine:3.4
 
-MAINTAINER Tokyo Home SOC <github@homesoc.tokyo>
+MAINTAINER HomeSOC Tokyo <github@homesoc.tokyo>
 
 # Environment variable
-ARG TIMEZONE=Asia/Tokyo
+#ARG TIMEZONE=Asia/Tokyo
 ## nginx-ct
-ARG NGX_CT_VERSION=1.3.1
+ARG NGX_CT_VERSION=1.3.2
 ## headers-more-nginx-module
-ARG HEADERS_MORE_NGINX_MODULE_VERSION=0.31
+ARG HEADERS_MORE_NGINX_MODULE_VERSION=0.32
 ## nginx
 ARG NGX_VERSION=1.11.6
 ARG NGX_GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8
@@ -45,11 +45,8 @@ RUN \
        addgroup -S nginx \
     && adduser -D -S -h /var/cache/nginx -s /sbin/nologin -G nginx nginx \
     # TIMEZONE
-    && apk add --no-cache --virtual .build-tzdata \
-         tzdata \
-    && cp /usr/share/zoneinfo/${TIMEZONE} /etc/localtime \
-    && apk del .build-tzdata \
-    \
+    && apk add --no-cache \
+        tzdata \
     # nginx packages
     && apk add --no-cache --virtual .build-nginx \
         gcc \
@@ -126,7 +123,9 @@ RUN \
     && ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
 
-COPY conf/nginx.conf /etc/nginx/nginx.conf
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY nginx_logformat.conf /etc/nginx/nginx_logformat.conf
+
 
 EXPOSE 80 443
 
