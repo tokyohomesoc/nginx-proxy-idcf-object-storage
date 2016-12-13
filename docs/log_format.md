@@ -1,19 +1,5 @@
 ## log_format
-### conf
-```conf
-    log_format  main  '$remote_addr - $remote_user [$time_local] '
-                      '$status $request_time $sent_http_x_f_cache "$request" '
-                      '$body_bytes_sent "$http_referer" '
-                      '"$http_user_agent" "$http_x_forwarded_for"';
-```
-### log
-```conf
-[05/Sep/2016:13:09:26 +0000] "tech.air-foron.com" - 123.456.789.012 - - -
-200 0.000 HIT - 4095 "GET / HTTP/1.1"
-"-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:50.0) Gecko/20100101 Firefox/50.0" "-"
-```
 
-## LTSV
 ### conf
 ```conf
 log_format main "time:$time_local\t"
@@ -86,39 +72,64 @@ log_format warn "time:$time_local\t"
                 "req_body:$request_body\t";
 ```
 
-
-```conf
-    log_format main "time:$time_local"
-                    "\tvhost:$host"
-                    "\thost:$remote_addr"
-                    "\tstatus:$status"
-                    "\treqtime:$request_time"
-                    "\tsize:$body_bytes_sent"
-                    "\tfcache:$sent_http_x_f_cache"
-                    "\treq:$request"
-                    "\treferer:$http_referer"
-                    "\tua:$http_user_agent"
-                    "\tforwardedfor:$http_x_forwarded_for";
-
+# Code 200
 ```
-### log
-```conf
-        time:05/Sep/2016:13:50:10 +0000
-        vhost:tech.air-foron.com
-        host:123.456.789.012
-        status:200
-        reqtime:0.000
-        size:4095
-        fcache:HIT
-        req:GET / HTTP/1.1
-        referer:http://tech.air-foron.com/2016/09/02/hello-world/
-        ua:Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:50.0) Gecko/20100101 Firefox/50.0
-        forwardedfor:-
+time:13/Dec/2016:12:20:51 +0900	
+host:172.18.15.23	
+hostname:e266fe5fd998	
+remote_addr:10.42.131.60	
+status:200	
+method:GET	
+scheme:http	
+path:/index.html	
+query:-	
+req_bytes:375	
+req_time:0.000	
+res_bytes:948	
+res_body_bytes:612	
+res_cache_control:-	
+res_content_type:text/html; charset=UTF-8	
+upstream_addr:-	
+upstream_taken_time:-	
+upstream_cache_status:-	
+x_forwarded_for:10.8.0.2	
+x_forwarded_for_proto:-	
+referer:-	
+accept_language:ja,en-US;q=0.7,en;q=0.3	
+user_agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:50.0) Gecko/20100101 Firefox/50.0	
+ssl_cipher:-	
+ssl_protocol:-	
+ssl_server_name:-	
+http2:
 ```
 
-
-```conf
-log_format main "time:time_local\t"
-                ""
-;
+# Code 404
+```
+time:13/Dec/2016:22:09:04 +0900	
+host:172.18.15.23	
+hostname:e266fe5fd998	
+remote_addr:10.42.131.60	
+status:404	
+method:GET	
+scheme:http	
+path:/favicon.ico	
+query:-	
+req_bytes:296	
+req_time:0.000	
+res_bytes:320	
+res_body_bytes:162	
+res_cache_control:-	
+res_content_type:text/html; charset=UTF-8	
+upstream_addr:-	
+upstream_taken_time:-	
+upstream_cache_status:-	
+x_forwarded_for:10.8.0.2	
+x_forwarded_for_proto:-	
+referer:-	
+accept_language:ja,en-US;q=0.7,en;q=0.3	
+user_agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:50.0) Gecko/20100101 Firefox/50.0	
+ssl_cipher:-	
+ssl_protocol:-	
+ssl_server_name:-	
+http2:	
 ```
