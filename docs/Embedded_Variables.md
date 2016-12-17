@@ -66,6 +66,7 @@
 |  | ngx_http_ssl_module | ssl_cipher | SSL接続を確立するために使われたcipherの文字を返します |
 |  | ngx_http_ssl_module | ssl_protocol | 確立されたSSL接続のプロトコルを返します |
 |  | ngx_http_ssl_module | ssl_server_name | SNIを使ってリクエストされたサーバ名を返します |
+|  | ngx_http_ssl_module | ssl_client_verify | クライアント証明書検証エラーの場合、$ssl_client_verify 変数には、失敗した理由の文字列（例：”FAILED：certificate has expired” ）が含まれるようになりました。 |
 |  | ngx_http_upstream_module | upstream_addr | upstreamサーバのIPアドレスとポート、あるいはUNIXドメインソケットのパスを保持します。 |
 |  | ngx_http_upstream_module | upstream_cache_status | 応答キャッシュへのアクセス状況を保持します。ステータスは “MISS”, “BYPASS”, “EXPIRED”, “STALE”, “UPDATING”, “REVALIDATED” あるいは “HIT”のいずれかかです。 |
 |  | ngx_http_upstream_module | upstream_connect_time | upstreamサーバと接続を確立するまでの時間を保持します |

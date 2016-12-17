@@ -34,6 +34,7 @@ log_format main "time:$time_local\t"
                 "ssl_cipher:$ssl_cipher\t"
                 "ssl_protocol:$ssl_protocol\t"
                 "ssl_server_name:$ssl_server_name\t"
+                "ssl_client_verify:$ssl_client_verify\t"
                 "http2:$http2\t";
 ```
 
