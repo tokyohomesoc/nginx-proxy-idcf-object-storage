@@ -8,6 +8,8 @@ MAINTAINER HomeSOC Tokyo <github@homesoc.tokyo>
 ARG NGX_CT_VERSION=1.3.2
 ## headers-more-nginx-module
 ARG HEADERS_MORE_NGINX_MODULE_VERSION=0.32
+## ngx_aws_auth
+ARG NGX_AWS_AUTH=2.0.0
 ## nginx
 ARG NGX_VERSION=1.11.7
 ARG NGX_GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8
@@ -37,8 +39,9 @@ ARG NGX_CONFIG="\
         --with-compat \
         --with-http_v2_module \
         \
-        --add-module=./nginx-ct-$NGX_CT_VERSION \
-        --add-module=./headers-more-nginx-module-$HEADERS_MORE_NGINX_MODULE_VERSION \
+        --add-module=./ngx_aws_auth-${NGX_AWS_AUTH} \
+        --add-module=./nginx-ct-${NGX_CT_VERSION} \
+        --add-module=./headers-more-nginx-module-${HEADERS_MORE_NGINX_MODULE_VERSION} \
     "
 
 RUN \
@@ -70,19 +73,26 @@ RUN \
     && rm nginx.tar.gz \
     && cd /usr/src/nginx-$NGX_VERSION \
     \
+    ## ngx_aws_auth
+    # https://github.com/anomalizer/ngx_aws_auth
+    && curl -fSL https://github.com/anomalizer/ngx_aws_auth/archive/${NGX_AWS_AUTH}.tar.gz \
+        -o ngx_aws_auth-${NGX_AWS_AUTH}.tar.gz \
+    && tar -zxC ./ -f ngx_aws_auth-${NGX_AWS_AUTH}.tar.gz \
+    && rm ngx_aws_auth-${NGX_AWS_AUTH}.tar.gz \
+    \
     ## nginx-ct
     # https://github.com/grahamedgecombe/nginx-ct
-    && curl -fSL https://github.com/grahamedgecombe/nginx-ct/archive/v$NGX_CT_VERSION.tar.gz \
-        -o nginx-ct.tar.gz \
-    && tar -zxC ./ -f nginx-ct.tar.gz \
-    && rm nginx-ct.tar.gz \
+    && curl -fSL https://github.com/grahamedgecombe/nginx-ct/archive/v${NGX_CT_VERSION}.tar.gz \
+        -o nginx-ct-${NGX_CT_VERSION}.tar.gz \
+    && tar -zxC ./ -f nginx-ct-${NGX_CT_VERSION}.tar.gz \
+    && rm nginx-ct-${NGX_CT_VERSION}.tar.gz \
     \
     ## headers-more-nginx-module
     # https://github.com/openresty/headers-more-nginx-module
-    && curl -fSL https://github.com/openresty/headers-more-nginx-module/archive/v$HEADERS_MORE_NGINX_MODULE_VERSION.tar.gz \
-        -o headers-more-nginx-module.tar.gz \
-    && tar -zxC ./ -f headers-more-nginx-module.tar.gz \
-    && rm headers-more-nginx-module.tar.gz \
+    && curl -fSL https://github.com/openresty/headers-more-nginx-module/archive/v${HEADERS_MORE_NGINX_MODULE_VERSION}.tar.gz \
+        -o headers-more-nginx-module-${HEADERS_MORE_NGINX_MODULE_VERSION}.tar.gz \
+    && tar -zxC ./ -f headers-more-nginx-module-${HEADERS_MORE_NGINX_MODULE_VERSION}.tar.gz \
+    && rm headers-more-nginx-module-${HEADERS_MORE_NGINX_MODULE_VERSION}.tar.gz \
     \
     && ./configure $NGX_CONFIG --with-debug \
     && make -j$(getconf _NPROCESSORS_ONLN) \
